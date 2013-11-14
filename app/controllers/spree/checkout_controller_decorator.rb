@@ -146,14 +146,14 @@ module Spree
       ppx_auth_response = gateway.send(method, (@order.total*100).to_i, opts)
 
       paypal_account = Spree::PaypalAccount.find_by_payer_id(params[:PayerID])
-      
-        payment.amount = ppx_auth_response.params["gross_amount"].to_f
-        payment.source = paypal_account
-        payment.source_type = 'Spree::PaypalAccount'
-        payment.payment_method_id = params[:payment_method_id]
-        payment.response_code = ppx_auth_response.authorization
-        payment.avs_response = ppx_auth_response.avs_result["code"]
-        payment.save
+
+      payment.amount = ppx_auth_response.params["gross_amount"].to_f
+      payment.source = paypal_account
+      payment.source_type = 'Spree::PaypalAccount'
+      payment.payment_method_id = params[:payment_method_id]
+      payment.response_code = ppx_auth_response.authorization
+      payment.avs_response = ppx_auth_response.avs_result["code"]
+      payment.save
 
       payment.started_processing!
 
