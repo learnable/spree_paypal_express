@@ -22,7 +22,7 @@ module Spree
 
       redirect_to(@gateway.redirect_url_for(response.token, :review => payment_method.preferred_review))
     rescue ActiveMerchant::ConnectionError => e
-      gateway_error I18n.t(:unable_to_connect_to_gateway)
+      gateway_error Spree.t(:unable_to_connect_to_gateway)
       redirect_to :back
     end
 
@@ -52,7 +52,7 @@ module Spree
 
       redirect_to(@gateway.redirect_url_for(@ppx_response.token, :review => payment_method.preferred_review))
     rescue ActiveMerchant::ConnectionError => e
-      gateway_error I18n.t(:unable_to_connect_to_gateway)
+      gateway_error Spree.t(:unable_to_connect_to_gateway)
       redirect_to :back
     end
 
@@ -130,7 +130,7 @@ module Spree
         redirect_to edit_order_checkout_url(@order, :state => "payment")
       end
     rescue ActiveMerchant::ConnectionError => e
-      gateway_error I18n.t(:unable_to_connect_to_gateway)
+      gateway_error Spree.t(:unable_to_connect_to_gateway)
       redirect_to edit_order_url(@order)
     end
 
@@ -183,7 +183,7 @@ module Spree
         end
 
         @order.finalize!
-        flash[:notice] = I18n.t(:order_processed_successfully)
+        flash[:notice] = Spree.t(:order_processed_successfully)
         flash[:commerce_tracking] = "true"
         redirect_to completion_route
       else
@@ -195,7 +195,7 @@ module Spree
         redirect_to edit_order_checkout_url(@order, :state => "payment")
       end
     rescue ActiveMerchant::ConnectionError => e
-      gateway_error I18n.t(:unable_to_connect_to_gateway)
+      gateway_error Spree.t(:unable_to_connect_to_gateway)
       redirect_to edit_order_url(@order)
     end
 
@@ -451,11 +451,11 @@ module Spree
       end
 
       if I18n.locale == :en
-        text = "#{I18n.t('gateway_error')}: #{text}"
+        text = "#{Spree.t('gateway_error')}: #{text}"
       else
         # Parameterize text for i18n key
         text = text.parameterize(sep = '_')
-        text = "#{I18n.t('gateway_error')}: #{I18n.t(text)}"
+        text = "#{Spree.t('gateway_error')}: #{Spree.t(text)}"
       end
       logger.error text
       flash[:error] = text
