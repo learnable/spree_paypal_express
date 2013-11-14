@@ -139,7 +139,7 @@ module Spree
 
       opts = { :token => params[:token], :payer_id => params[:PayerID] }.merge all_opts(@order, params[:payment_method_id], 'payment' )
       gateway = paypal_gateway
-      payment = Spree::Payment.where(:order_id => @order, :id => params[:payment_id]).first
+      payment = Spree::Payment.where(order_id: @order, payment_method_id: params[:payment_method_id]).first
 
 
       method = Spree::Config[:auto_capture] ? :purchase : :authorize
