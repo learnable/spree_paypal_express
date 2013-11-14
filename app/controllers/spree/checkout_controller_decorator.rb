@@ -30,7 +30,7 @@ module Spree
       load_order
       opts = all_opts(@order, params[:payment_method_id], 'payment')
 
-      if payment_method.preferred_cart_checkout
+      if payment_method.preferred_cart_checkout && @order.delivery_required?
         opts.merge!(shipping_options)
       else
         opts.merge!(address_options(@order))
