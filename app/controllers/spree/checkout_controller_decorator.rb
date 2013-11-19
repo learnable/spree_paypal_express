@@ -152,24 +152,10 @@ module Spree
       payment.avs_response = ppx_auth_response.avs_result["code"]
       payment.save
 
-      payment.started_processing!
-
       record_log payment, ppx_auth_response
 
       if ppx_auth_response.success?
-        #confirm status
-        case ppx_auth_response.params["payment_status"]
-        when "Completed"
-          payment.complete!
-        when "Pending"
-          payment.pend!
-        else
-          payment.pend!
-          Rails.logger.error "Unexpected response from PayPal Express"
-          Rails.logger.error ppx_auth_response.to_yaml
-        end
-
-        @order.update_attributes({:state => "complete", :completed_at => Time.now}, :without_protection => true)
+        @order.next
 
         # Unset the order id as it's completed.
         session[:order_id] = nil
@@ -179,7 +165,6 @@ module Spree
           @order.send(:consume_users_credit)
         end
 
-        @order.finalize!
         flash[:notice] = Spree.t(:order_processed_successfully)
         flash[:commerce_tracking] = "true"
         redirect_to completion_route
