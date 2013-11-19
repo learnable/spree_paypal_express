@@ -112,11 +112,8 @@ module Spree
           end
 
         end
-        @order.state = "payment"
-        @order.save
 
         if payment_method.preferred_review
-
           @order.next
           render 'spree/shared/paypal_express_confirm'
         else
