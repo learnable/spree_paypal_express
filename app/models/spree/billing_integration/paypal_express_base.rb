@@ -27,6 +27,10 @@ class Spree::BillingIntegration::PaypalExpressBase < Spree::BillingIntegration
     end
   end
 
+  def purchase(money, args, gateway_options)
+    Spree::BillingIntegration::PaypalExpressBase::Response.new
+  end
+
   def credit(*args)
     amount = args.shift
     response_code = args.first.is_a?(String) ? args.first : args[1]
