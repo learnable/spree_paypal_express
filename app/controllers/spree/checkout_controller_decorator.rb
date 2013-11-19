@@ -124,7 +124,7 @@ module Spree
         gateway_error(@ppx_details)
 
         #Failed trying to get payment details from PPX
-        redirect_to edit_order_checkout_url(@order, :state => "payment")
+        redirect_to edit_order_checkout_url(@order, state: "payment")
       end
     rescue ActiveMerchant::ConnectionError => e
       gateway_error Spree.t(:unable_to_connect_to_gateway)
